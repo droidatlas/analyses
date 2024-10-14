@@ -61,5 +61,5 @@ for photo in api.photos.all:
 
 photo_df.rename(columns={0:'size_MB', 1:'cretd_dt'}, inplace=True)
 photo_df.reset_index(inplace=True, names='file_nm')
-photo_df.sort_values(by='size_MB', ascending=False, inplace=True)
+photo_df.sort_values(by='size_MB', ascending=False, inplace=True, ignore_index=True)
 photo_df
