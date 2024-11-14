@@ -44,17 +44,23 @@ elif api.requires_2sa:
         print("Failed to verify verification code")
         sys.exit(1)
 
+print('Verified, making CSV...')
+
 ## Create a photo DataFrame by iterating through every photo/video in your library
 
 photo_df = pd.DataFrame()
 
+i = 0
+
 for photo in api.photos.all:
     name = photo.filename
-    size = photo.size / 1000000 # MB
+    size = photo.size / 1000000 # MB 
     created_date = ''.join([str(photo.created.year), '-', str(photo.created.month), '-', str(photo.created.day)])
     
     row = pd.DataFrame([[size, created_date]], index=[name])  ## Create a DataFrame for the new row
     photo_df = pd.concat([photo_df, row])  ## Concatenate the new row to the DataFrame
+    print(f'Item {i}', end='\r')
+    i += 1
 
 
 ## Display the DataFrame, largest files on top
@@ -62,4 +68,5 @@ for photo in api.photos.all:
 photo_df.rename(columns={0:'size_MB', 1:'cretd_dt'}, inplace=True)
 photo_df.reset_index(inplace=True, names='file_nm')
 photo_df.sort_values(by='size_MB', ascending=False, inplace=True, ignore_index=True)
-photo_df
+photo_df.to_csv('photo_browser.csv')
+print('\nDone')
