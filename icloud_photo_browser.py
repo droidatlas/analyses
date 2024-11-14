@@ -62,7 +62,6 @@ for photo in api.photos.all:
     print(f'Item {i}', end='\r')
     i += 1
 
-
 ## Display the DataFrame, largest files on top
 
 photo_df.rename(columns={0:'size_MB', 1:'cretd_dt'}, inplace=True)
